@@ -100,6 +100,9 @@ sniffer:
   skip-domain:
     - "+.baidu.com"
 
+hosts:
+    mtalk.google.com: 108.177.125.188
+    services.googleapis.cn: 74.125.203.94
 
 # DNS模块
 dns:
@@ -144,6 +147,7 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
     - 114.114.114.114
+  
  
 # 出站策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
@@ -210,7 +214,7 @@ rules:
   # 默认代理
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
-  - DOMAIN-SUFFIX,services.googleapis.cn, 🌸 Google # google play store 规则
+  - DOMAIN-SUFFIX,googleapis.cn, 🌸 Google # google play store 规则
 
   # - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
