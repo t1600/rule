@@ -15,27 +15,43 @@ proxy-providers:
 proxies:
   - {name: 直连, type: direct}
 
-# 全局配置 
-port: 7893
-socks-port: 7891
-redir-port: 7892
-mixed-port: 7890
-tproxy-port: 7894
+#端口
+# port: 7890 # HTTP(S) 代理服务器端口
+# socks-port: 7891 # SOCKS5 代理端口
+mixed-port: 7890 # HTTP(S) 和 SOCKS 代理混合端口
+# redir-port: 7892 # 透明代理端口，用于 Linux 和 MacOS
+
+# Transparent proxy server port for Linux (TProxy TCP and TProxy UDP)
+# tproxy-port: 7893
+
 allow-lan: true
 bind-address: "*"
-ipv6: false
-unified-delay: true
-tcp-concurrent: true
+
+# authentication: # http,socks 入口的验证用户名，密码
+#   - "username:password"
+
+#  find-process-mode has 3 values:always, strict, off
+#  - always, 开启，强制匹配所有进程
+#  - strict, 默认，由 mihomo 判断是否开启
+#  - off, 不匹配进程，推荐在路由器上使用此模式
+find-process-mode: strict
+
+mode: rule
+
+#自定义 geodata url
+# geox-url:
+#   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+#   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+#   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+
+# geo-auto-update: false # 是否自动更新 geodata
+# geo-update-interval: 24 # 更新间隔，单位：小时
+
 log-level: info
-find-process-mode: 'off'
-# interface-name: en0
-global-client-fingerprint: chrome
-keep-alive-idle: 600
-keep-alive-interval: 15
-disable-keep-alive: false
-profile:
-  store-selected: true
-  store-fake-ip: true
+ipv6: false
+
+unified-delay: true # 统一延迟，去除握手延迟
+tcp-concurrent: true  # TCP 并发连接所有 IP, 将使用最快握手的 TCP
 
 # 控制面板
 external-controller: 0.0.0.0:9090
@@ -45,9 +61,32 @@ external-ui: "/root/.config/mihomo/ui"
 external-ui-name: zashboard
 external-ui-url: "https://gh.6655666.xyz/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
 
+# interface-name: en0 # 设置出口网卡
+# 全局 TLS 指纹，优先低于 proxy 内的 client-fingerprint
+# 可选： "chrome","firefox","safari","ios","random","none" options.
+global-client-fingerprint: chrome
+
+keep-alive-idle: 600
+keep-alive-interval: 15
+disable-keep-alive: false
+profile:
+  store-selected: true  # 存储 select 选择记录
+  store-fake-ip: true  # 持久化 fake-ip
+
+# 入站  
+tun:
+  enable: false
+  # system/gvisor/mixed
+  stack: mixed
+  dns-hijack: ["any:53", "tcp://any:53"]
+  auto-detect-interface: true # 自动识别出口网卡  
+  auto-route: true # 配置路由表
+  auto-redirect: true # 自动配置 iptables 以重定向 TCP 连接。仅支持 Linux。
+
+
 # 嗅探
 sniffer:
-  enable: true
+  enable: false
   sniff:
     HTTP:
       ports: [80, 8080-8880]
@@ -61,38 +100,50 @@ sniffer:
   skip-domain:
     - "+.baidu.com"
 
-# 入站  
-tun:
-  enable: false
-  # system/gvisor/mixed
-  stack: mixed
-  dns-hijack: ["any:53", "tcp://any:53"]
-  auto-route: true
-  auto-redirect: true
-  auto-detect-interface: true
 
 # DNS模块
 dns:
   enable: true
   listen: 0.0.0.0:1053
   ipv6: false
-  respect-rules: true
+  cache-algorithm: arc
+  # 配置后面的nameserver、fallback和nameserver-policy向dns服务器的连接过程是否遵守遵守rules规则
+  # 如果为false（默认值）则这三部分的dns服务器在未特别指定的情况下会直连
+  # 如果为true，将会按照rules的规则匹配链接方式（走代理或直连），如果有特别指定则任然以指定值为准
+  # 仅当proxy-server-nameserver非空时可以开启此选项, 强烈不建议和prefer-h3一起使用
+  # 此外，这三者配置中的dns服务器如果出现域名会采用default-nameserver配置项解析，也请确保正确配置default-nameserver
+  respect-rules: true 
+
   enhanced-mode: fake-ip
   fake-ip-range: 28.0.0.1/8
   fake-ip-filter-mode: blacklist
+  # 配置不使用 fake-ip 的域名
   fake-ip-filter:
     - "rule-set:private_domain,cn_domain"
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
     - "time.*.com"
+
+  # 用于解析 nameserver，fallback 以及其他 DNS 服务器配置的，DNS 服务域名
+  # 只能使用纯 IP 地址，可使用加密 DNS
   default-nameserver:
     - 223.5.5.5
+    - 114.114.114.114
+    - tls://1.12.12.12:853
+    - tls://223.5.5.5:853
+    - system
+
+  # 专用于节点域名解析的 DNS 服务器，非必要配置项，如果不填则遵循nameserver-policy、nameserver和fallback的配置
   proxy-server-nameserver:
     - https://223.5.5.5/dns-query
-  # namesever尽量用运营商提供的DNS
+
+  # DNS 主要域名配置
+  # 支持 UDP，TCP，DoT，DoH，DoQ
+  # 这部分为主要 DNS 配置，影响所有直连，确保使用对大陆解析精准的 DNS
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
+    - 114.114.114.114
  
 # 出站策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
@@ -106,8 +157,7 @@ proxy-groups:
   - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states"}
   - {name: 🇰🇷 韩国节点, type: select, include-all: true, filter: "(?i)韩|kr|korea|southkorea|south korea"}
   - {name: 🇸🇬 新加坡节点, type: select, include-all: true, filter: "(?i)新|sg|singapore"}
-
-
+  - {name: ⬆️ imgops, type: select, include-all: true}
 
   - {name: 📹 YouTube, <<: *pr}
   - {name: 🌸 Google, <<: *pr}
@@ -134,6 +184,10 @@ proxy-groups:
   - {name: 🔯 日本故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$" }
 
 
+###########################################################
+##############图标网站 https://emojiterra.com ##############
+###########################################################
+
 
 # 规则匹配
 # 此规则部分没有做防泄露处理，因为弊严重大于利！
@@ -146,6 +200,7 @@ rules:
   - DOMAIN-SUFFIX,yandex.com,♻️ 美国自动
   - DOMAIN-SUFFIX,yandex.net,♻️ 美国自动
   - DOMAIN-SUFFIX,animon.ai,🤖 ChatGPT
+  - DOMAIN-SUFFIX,imgops.com,⬆️ imgops
   - DOMAIN,gh.6655666.xyz,🎯 直连
 
     # 直连规则
@@ -155,6 +210,7 @@ rules:
   # 默认代理
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
+  - DOMAIN-SUFFIX,services.googleapis.cn, 🌸 Google # google play store 规则
 
   # - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
