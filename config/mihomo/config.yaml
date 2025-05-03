@@ -100,10 +100,6 @@ sniffer:
   skip-domain:
     - "+.baidu.com"
 
-hosts:
-    mtalk.google.com: 108.177.125.188
-    services.googleapis.cn: 74.125.203.94
-
 # DNS模块
 dns:
   enable: true
@@ -206,6 +202,7 @@ rules:
   - DOMAIN-SUFFIX,animon.ai,🤖 ChatGPT
   - DOMAIN-SUFFIX,imgops.com,⬆️ imgops
   - DOMAIN,gh.6655666.xyz,🎯 直连
+  - DOMAIN-SUFFIX,googleapis.cn, 🌸 Google # google play store 规则
 
     # 直连规则
   - RULE-SET,cn_ip,🎯 直连
@@ -214,7 +211,6 @@ rules:
   # 默认代理
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
-  - DOMAIN-SUFFIX,googleapis.cn, 🌸 Google # google play store 规则
 
   # - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
