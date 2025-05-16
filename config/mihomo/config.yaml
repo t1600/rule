@@ -197,6 +197,7 @@ rules:
   - RULE-SET,private_domain,🎯 直连
 
   # 自定义过滤
+  - DOMAIN-SUFFIX,hf.space,♻️ 香港自动
   - DOMAIN-SUFFIX,yandex.com,♻️ 美国自动
   - DOMAIN-SUFFIX,yandex.net,♻️ 美国自动
   - DOMAIN-SUFFIX,animon.ai,🤖 ChatGPT
