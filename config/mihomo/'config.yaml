@@ -59,7 +59,7 @@ secret: ""
 # Mihomo Docker
 external-ui: "/root/.config/mihomo/ui"
 external-ui-name: zashboard
-external-ui-url: "https://gh.6655666.xyz/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+external-ui-url: "https://ghproxy.net/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
 
 # interface-name: en0 # 设置出口网卡
 # 全局 TLS 指纹，优先低于 proxy 内的 client-fingerprint
