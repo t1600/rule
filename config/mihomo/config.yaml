@@ -334,7 +334,7 @@ rules:
   - DOMAIN-SUFFIX,tbai.xin,🤖 ChatGPT
   - DOMAIN-SUFFIX,nebius.com,🤖 ChatGPT
   - DOMAIN-SUFFIX,x666.me,🤖 ChatGPT
-  - DOMAIN-SUFFIX,wave.org,🤖 ChatGPT
+  - DOMAIN-SUFFIX,ai-wave.org,🤖 ChatGPT
   - DOMAIN-SUFFIX,aioec.tech,🤖 ChatGPT
   - DOMAIN-SUFFIX,imgops.com,⬆️ imgops
   - DOMAIN,gh.6655666.xyz,🎯 直连
