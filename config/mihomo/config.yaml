@@ -337,7 +337,7 @@ rules:
   - DOMAIN-SUFFIX,imgops.com,⬆️ imgops
   - DOMAIN,gh.6655666.xyz,🎯 直连
   - DOMAIN-SUFFIX,googleapis.cn, 🌸 Google # google play store 规则
-
+  - DOMAIN-SUFFIX,gh-proxy.com, 🎯 直连
 
     # 直连规则
   - RULE-SET,cn_ip,🎯 直连
