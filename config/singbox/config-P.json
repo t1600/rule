@@ -4,7 +4,7 @@
     "timestamp": true
   },
   "experimental": {
-    "clash_api": {
+    "clash_api": { 
       "external_controller": "0.0.0.0:9095",
       "external_ui": "ui",
       "secret": "",
