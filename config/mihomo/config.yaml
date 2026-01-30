@@ -232,7 +232,6 @@ proxy-groups:
       include-all: true,
       filter: "(?i)新|sg|singapore",
     }
-  - { name: ⬆️ imgops, type: select, include-all: true }
 
   - { name: 📹 YouTube, <<: *pr }
   - { name: 🌸 Google, <<: *pr }
@@ -336,10 +335,10 @@ rules:
   - DOMAIN-SUFFIX,x666.me,🤖 ChatGPT
   - DOMAIN-SUFFIX,ai-wave.org,🤖 ChatGPT
   - DOMAIN-SUFFIX,aioec.tech,🤖 ChatGPT
-  - DOMAIN-SUFFIX,imgops.com,⬆️ imgops
-  - DOMAIN,gh.6655666.xyz,🎯 直连
   - DOMAIN-SUFFIX,googleapis.cn, 🌸 Google # google play store 规则
+  - DOMAIN,gh.258899.xyz,🎯 直连
   - DOMAIN-SUFFIX,gh-proxy.com, 🎯 直连
+  - DOMAIN-SUFFIX,cnb.cool, 🎯 直连
 
     # 直连规则
   - RULE-SET,cn_ip,🎯 直连
