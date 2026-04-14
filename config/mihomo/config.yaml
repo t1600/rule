@@ -64,7 +64,7 @@ external-ui-url: "https://hk.gh-proxy.com/https://github.com/Zephyruso/zashboard
 # interface-name: en0 # 设置出口网卡
 # 全局 TLS 指纹，优先低于 proxy 内的 client-fingerprint
 # 可选： "chrome","firefox","safari","ios","random","none" options.
-global-client-fingerprint: chrome
+client-fingerprint: chrome
 
 keep-alive-idle: 600
 keep-alive-interval: 15
