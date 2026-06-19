@@ -166,8 +166,8 @@ pr:
         🇰🇷 韩国节点,
         🇸🇬 新加坡节点,
         🌐 全部节点,
-        直连,
-      ],
+        直连
+      ]
   }
 proxy-groups:
   - {
@@ -190,8 +190,8 @@ proxy-groups:
           🇰🇷 韩国节点,
           🇸🇬 新加坡节点,
           🌐 全部节点,
-          直连,
-        ],
+          直连
+        ]
     }
   - { name: 🌐 全部节点, type: select, include-all: true }
   - {
@@ -200,37 +200,37 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "0.1|0.01",
+      filter: "0.1|0.01"
     }
   - {
       name: 🇭🇰 香港节点,
       type: select,
       include-all: true,
-      filter: "(?i)港|澳|台|hk|hongkong|hong kong",
+      filter: "(?i)港|澳|台|hk|hongkong|hong kong"
     }
   - {
       name: 🇯🇵 日本节点,
       type: select,
       include-all: true,
-      filter: "(?i)日|jp|japan",
+      filter: "(?i)日|jp|japan"
     }
   - {
       name: 🇺🇲 美国节点,
       type: select,
       include-all: true,
-      filter: "(?i)美|us|unitedstates|united states",
+      filter: "(?i)美|us|unitedstates|united states"
     }
   - {
       name: 🇰🇷 韩国节点,
       type: select,
       include-all: true,
-      filter: "(?i)韩|kr|korea|southkorea|south korea",
+      filter: "(?i)韩|kr|korea|southkorea|south korea"
     }
   - {
       name: 🇸🇬 新加坡节点,
       type: select,
       include-all: true,
-      filter: "(?i)新|sg|singapore",
+      filter: "(?i)新|sg|singapore"
     }
 
   - { name: 📹 YouTube, <<: *pr }
@@ -253,7 +253,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "^((?!(直连)).)*$",
+      filter: "^((?!(直连)).)*$"
     }
   - {
       name: ♻️ 香港自动,
@@ -261,7 +261,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(港|澳|台|HK|(?i)Hong))^((?!(日|韩|新|深|美)).)*$",
+      filter: "(?=.*(港|澳|台|HK|(?i)Hong))^((?!(日|韩|新|深|美)).)*$"
     }
   - {
       name: ♻️ 日本自动,
@@ -269,7 +269,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$",
+      filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"
     }
   - {
       name: ♻️ 美国自动,
@@ -277,7 +277,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$",
+      filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"
     }
   - {
       name: ♻️ 韩国自动,
@@ -285,7 +285,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?i)韩|kr|korea|southkorea|south korea",
+      filter: "(?i)韩|kr|korea|southkorea|south korea"
     }
   - {
       name: ♻️ 新加坡自动,
@@ -293,7 +293,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?i)新|sg|singapore",
+      filter: "(?i)新|sg|singapore"
     }
 
   - {
@@ -302,7 +302,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$",
+      filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"
     }
   - {
       name: 🔯 日本故转,
@@ -310,7 +310,7 @@ proxy-groups:
       include-all: true,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$",
+      filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"
     }
 
 ###########################################################
@@ -323,6 +323,9 @@ rules:
   # 本地局域网
   - RULE-SET,private_ip,🎯 直连,no-resolve
   - RULE-SET,private_domain,🎯 直连
+
+  #ai中转分流代理
+  - DOMAIN,new.sharedchat.cc,🎯 直连
 
   # 自定义过滤
   - DOMAIN,pro.258899.xyz,🎯 直连
@@ -377,111 +380,111 @@ rule-providers:
   private_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
     }
   proxylite:
     {
       <<: *class,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list"
     }
   ai:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"
     }
   youtube_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
     }
   google_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
     }
   github_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
     }
   telegram_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
     }
   netflix_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
     }
   paypal_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"
     }
   onedrive_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"
     }
   microsoft_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
     }
   apple_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"
     }
   speedtest_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"
     }
   tiktok_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
     }
   gfw_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"
     }
   geolocation-!cn:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
     }
   cn_domain:
     {
       <<: *domain,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
     }
 
   cn_ip:
     {
       <<: *ip,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
     }
   google_ip:
     {
       <<: *ip,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
     }
   telegram_ip:
     {
       <<: *ip,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
     }
   netflix_ip:
     {
       <<: *ip,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
     }
   private_ip:
     {
       <<: *ip,
-      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs",
+      url: "https://hk.gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
     }
