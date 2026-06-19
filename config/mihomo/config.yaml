@@ -360,6 +360,7 @@ rules:
   - DOMAIN-SUFFIX,ai-wave.org,🤖 ChatGPT
 
   # 自定义过滤
+  - DOMAIN,github.chenc.dev,🎯 直连
   - DOMAIN,pro.258899.xyz,🎯 直连
   - DOMAIN-SUFFIX,hf.space,♻️ 香港自动
   - DOMAIN-SUFFIX,yandex.com,♻️ 美国自动
