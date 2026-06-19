@@ -9,6 +9,9 @@ proxy-providers:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
     proxy: 直连
 
 # 节点信息
@@ -26,6 +29,8 @@ mixed-port: 7890 # HTTP(S) 和 SOCKS 代理混合端口
 
 allow-lan: true
 bind-address: "*"
+# lan-allowed-ips: []
+# lan-disallowed-ips: []
 
 # authentication: # http,socks 入口的验证用户名，密码
 #   - "username:password"
@@ -55,7 +60,7 @@ tcp-concurrent: true # TCP 并发连接所有 IP, 将使用最快握手的 TCP
 
 # 控制面板
 external-controller: 0.0.0.0:9090
-secret: ""
+secret: "passwd"
 # Mihomo Docker
 external-ui: "/root/.config/mihomo/ui"
 external-ui-name: zashboard
@@ -65,7 +70,6 @@ external-ui-url: "https://hk.gh-proxy.com/github.com/Zephyruso/zashboard/archive
 # 全局 TLS 指纹，优先低于 proxy 内的 client-fingerprint
 # 可选： "chrome","firefox","safari","ios","random","none" options.
 client-fingerprint: chrome
-global-client-fingerprint: chrome
 
 keep-alive-idle: 600
 keep-alive-interval: 15
@@ -83,6 +87,7 @@ tun:
   auto-detect-interface: true # 自动识别出口网卡
   auto-route: true # 配置路由表
   auto-redirect: true # 自动配置 iptables 以重定向 TCP 连接。仅支持 Linux。
+  strict-route: true
 
 # 嗅探
 sniffer:
@@ -105,21 +110,23 @@ sniffer:
 # DNS模块
 dns:
   enable: true
-    cache-algorithm: arc
+  cache-algorithm: arc
   # 配置后面的nameserver、fallback和nameserver-policy向dns服务器的连接过程是否遵守遵守rules规则
   # 如果为false（默认值）则这三部分的dns服务器在未特别指定的情况下会直连
   # 如果为true，将会按照rules的规则匹配链接方式（走代理或直连），如果有特别指定则任然以指定值为准
   # 仅当proxy-server-nameserver非空时可以开启此选项, 强烈不建议和prefer-h3一起使用
   # 此外，这三者配置中的dns服务器如果出现域名会采用default-nameserver配置项解析，也请确保正确配置default-nameserver
   listen: 0.0.0.0:1053
-  ipv6: false
+  ipv6: true
   respect-rules: true
   enhanced-mode: fake-ip
-  fake-ip-range: 28.0.0.1/8
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-range6: fdfe:dcba:9876::1/64
   fake-ip-filter-mode: blacklist
   # 配置不使用 fake-ip 的域名
   fake-ip-filter:
-    - "rule-set:private_domain,cn_domain"
+    - "rule-set:private_domain"
+    - "rule-set:cn_domain"
     - "rule-set:fakeipfilter_domain"
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
@@ -133,7 +140,6 @@ dns:
     - 114.114.114.114
     - tls://1.12.12.12:853
     - tls://223.5.5.5:853
-    - system
 
   # 专用于节点域名解析的 DNS 服务器，非必要配置项，如果不填则遵循nameserver-policy、nameserver和fallback的配置
   proxy-server-nameserver:
@@ -142,13 +148,12 @@ dns:
   direct-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
+    - system
   nameserver:
     - https://8.8.8.8/dns-query#RULES&ecs=223.5.5.0/24
     - 223.5.5.5
     - 119.29.29.29
     - 114.114.114.114
-  fake-ip-filter:
-    - "rule-set:fakeipfilter_domain"
 
 # 出站策略，根据自己情况调整每个策略里分组排序，增删都可以，比如把美国自动放到第一个，比如删除香港故转，注意别漏掉表情逗号等。
 # 如果相应分组没有筛选到对应的国家，请根据自己节点名字调整筛选关键字。
@@ -207,6 +212,7 @@ proxy-groups:
       name: 🍀 省流节点,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
       filter: "0.1|0.01"
@@ -260,38 +266,46 @@ proxy-groups:
       name: ♻️ 自动选择,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
-      filter: "^((?!(直连)).)*$"
+      exclude-filter: "直连"
     }
   - {
       name: ♻️ 香港自动,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(港|澳|台|HK|(?i)Hong))^((?!(日|韩|新|深|美)).)*$"
+      filter: "(?i)港|澳|台|hk|hong",
+      exclude-filter: "日|韩|新|深|美"
     }
   - {
       name: ♻️ 日本自动,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"
+      filter: "(?i)日|jp|japan",
+      exclude-filter: "港|台|韩|新|美"
     }
   - {
       name: ♻️ 美国自动,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"
+      filter: "(?i)美|us|states|america",
+      exclude-filter: "港|台|日|韩|新"
     }
   - {
       name: ♻️ 韩国自动,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
       filter: "(?i)韩|kr|korea|southkorea|south korea"
@@ -300,6 +314,7 @@ proxy-groups:
       name: ♻️ 新加坡自动,
       type: url-test,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
       filter: "(?i)新|sg|singapore"
@@ -309,17 +324,21 @@ proxy-groups:
       name: 🔯 香港故转,
       type: fallback,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"
+      filter: "(?i)港|hk|hong",
+      exclude-filter: "台|日|韩|新|深|美"
     }
   - {
       name: 🔯 日本故转,
       type: fallback,
       include-all: true,
+      url: https://www.gstatic.com/generate_204,
       tolerance: 20,
       interval: 300,
-      filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"
+      filter: "(?i)日|jp|japan",
+      exclude-filter: "港|台|韩|新|美"
     }
 
 ###########################################################
@@ -335,25 +354,23 @@ rules:
 
   #ai中转分流代理
   - DOMAIN,new.sharedchat.cc,🎯 直连
+  - DOMAIN-SUFFIX,animon.ai,🤖 ChatGPT
+  - DOMAIN-SUFFIX,nebius.com,🤖 ChatGPT
+  - DOMAIN-SUFFIX,x666.me,🤖 ChatGPT
+  - DOMAIN-SUFFIX,ai-wave.org,🤖 ChatGPT
 
   # 自定义过滤
   - DOMAIN,pro.258899.xyz,🎯 直连
   - DOMAIN-SUFFIX,hf.space,♻️ 香港自动
   - DOMAIN-SUFFIX,yandex.com,♻️ 美国自动
   - DOMAIN-SUFFIX,yandex.net,♻️ 美国自动
-  - DOMAIN-SUFFIX,animon.ai,🤖 ChatGPT
-  - DOMAIN-SUFFIX,tbai.xin,🤖 ChatGPT
-  - DOMAIN-SUFFIX,nebius.com,🤖 ChatGPT
-  - DOMAIN-SUFFIX,x666.me,🤖 ChatGPT
-  - DOMAIN-SUFFIX,ai-wave.org,🤖 ChatGPT
-  - DOMAIN-SUFFIX,aioec.tech,🤖 ChatGPT
-  - DOMAIN-SUFFIX,googleapis.cn, 🌸 Google # google play store 规则
+  - DOMAIN-SUFFIX,googleapis.cn,🌸 Google # google play store 规则
   - DOMAIN,gh.258899.xyz,🎯 直连
-  - DOMAIN-SUFFIX,gh-proxy.com, 🎯 直连
-  - DOMAIN-SUFFIX,cnb.cool, 🎯 直连
+  - DOMAIN-SUFFIX,gh-proxy.com,🎯 直连
+  - DOMAIN-SUFFIX,cnb.cool,🎯 直连
 
     # 直连规则
-  - RULE-SET,cn_ip,🎯 直连
+  - RULE-SET,cn_ip,🎯 直连,no-resolve
   - RULE-SET,cn_domain,🎯 直连
 
   # 默认代理
@@ -365,7 +382,7 @@ rules:
   - RULE-SET,google_domain,🌸 Google
   - RULE-SET,onedrive_domain,🐬 OneDrive
   - RULE-SET,microsoft_domain,🪟 Microsoft
-  - RULE-SET,apple_domain,直连
+  - RULE-SET,apple_domain,🎯 直连
   - RULE-SET,tiktok_domain,🚀 默认代理
   # - RULE-SET,speedtest_domain,✈️ Speedtest
   - RULE-SET,telegram_domain,📲 Telegram
@@ -377,7 +394,6 @@ rules:
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
   - RULE-SET,gfw_domain,🚀 默认代理
   - RULE-SET,geolocation-!cn,🚀 默认代理
-
 
   - MATCH,🐟 漏网之鱼
 
