@@ -375,7 +375,6 @@ rules:
   - RULE-SET,cn_domain,🎯 直连
 
   # 默认代理
-  - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
 
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
@@ -414,11 +413,6 @@ rule-providers:
     {
       <<: *domain,
       url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
-    }
-  proxylite:
-    {
-      <<: *class,
-      url: "https://github.chenc.dev/raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list"
     }
   ai:
     {
