@@ -358,6 +358,7 @@ rules:
   - DOMAIN-SUFFIX,nebius.com,🤖 ChatGPT
   - DOMAIN-SUFFIX,x666.me,🤖 ChatGPT
   - DOMAIN-SUFFIX,ai-wave.org,🤖 ChatGPT
+  - DOMAIN,ai.hybgzs.com,🎯 直连
 
   # 自定义过滤
   - DOMAIN,github.chenc.dev,🎯 直连
