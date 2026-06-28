@@ -374,6 +374,7 @@ rules:
     # 直连规则
   - RULE-SET,cn_ip,🎯 直连,no-resolve
   - RULE-SET,cn_domain,🎯 直连
+  - GEOIP,CN,🎯 直连
 
   # 默认代理
   - RULE-SET,ai,🤖 ChatGPT
