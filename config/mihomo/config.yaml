@@ -44,13 +44,13 @@ find-process-mode: strict
 mode: rule
 
 #自定义 geodata url
-# geox-url:
-#   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
-#   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
-#   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+geodata-mode: true
+geox-url:
+  geoip: "https://github.chenc.dev/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.db"
+  geosite: "https://github.chenc.dev/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.db"
 
-# geo-auto-update: false # 是否自动更新 geodata
-# geo-update-interval: 24 # 更新间隔，单位：小时
+geo-auto-update: false # 是否自动更新 geodata
+geo-update-interval: 24 # 更新间隔，单位：小时
 
 log-level: info
 ipv6: true
@@ -369,6 +369,7 @@ rules:
     # 直连规则
   - RULE-SET,cn_ip,🎯 直连,no-resolve
   - RULE-SET,cn_domain,🎯 直连
+  - GEOSITE,cn,🎯 直连
   - GEOIP,CN,🎯 直连
 
   # 默认代理
