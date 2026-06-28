@@ -254,12 +254,7 @@ proxy-groups:
   - { name: 👨🏿‍💻 GitHub, <<: *pr }
   - { name: 🐬 OneDrive, <<: *pr }
   - { name: 🪟 Microsoft, <<: *pr }
-  # - {name: 🎵 TikTok, <<: *pr}
   - { name: 📲 Telegram, <<: *pr }
-  # - {name: 🎥 NETFLIX, <<: *pr}
-  # - {name: ✈️ Speedtest, <<: *pr}
-  # - {name: 💶 PayPal, <<: *pr}
-  # - {name: 🍎 Apple, type: select, proxies: [直连, 🚀 默认代理]}
   - { name: 🎯 直连, type: select, proxies: [直连, 🚀 默认代理] }
   - { name: 🐟 漏网之鱼, <<: *pr }
   - {
@@ -385,14 +380,9 @@ rules:
   - RULE-SET,onedrive_domain,🐬 OneDrive
   - RULE-SET,microsoft_domain,🪟 Microsoft
   - RULE-SET,apple_domain,🎯 直连
-  - RULE-SET,tiktok_domain,🚀 默认代理
-  # - RULE-SET,speedtest_domain,✈️ Speedtest
   - RULE-SET,telegram_domain,📲 Telegram
-  # - RULE-SET,netflix_domain,🎥 NETFLIX
-  # - RULE-SET,paypal_domain,💶 PayPal
   - RULE-SET,apple_ip,🎯 直连
   - RULE-SET,google_ip,🌸 Google,no-resolve
-  # - RULE-SET,netflix_ip,🎥 NETFLIX
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
   - RULE-SET,gfw_domain,🚀 默认代理
   - RULE-SET,geolocation-!cn,🚀 默认代理
@@ -441,16 +431,6 @@ rule-providers:
       <<: *domain,
       url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
     }
-  netflix_domain:
-    {
-      <<: *domain,
-      url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
-    }
-  paypal_domain:
-    {
-      <<: *domain,
-      url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"
-    }
   onedrive_domain:
     {
       <<: *domain,
@@ -465,16 +445,6 @@ rule-providers:
     {
       <<: *domain,
       url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"
-    }
-  speedtest_domain:
-    {
-      <<: *domain,
-      url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"
-    }
-  tiktok_domain:
-    {
-      <<: *domain,
-      url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
     }
   gfw_domain:
     {
@@ -511,11 +481,6 @@ rule-providers:
     {
       <<: *ip,
       url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
-    }
-  netflix_ip:
-    {
-      <<: *ip,
-      url: "https://github.chenc.dev/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
     }
   apple_ip:
     {
